@@ -72,18 +72,6 @@ async function run() {
                 }))
         }
         await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
-
-        let client = artifact.create()
-        let files = fs.readFileSync('library.zip', { encoding: 'utf8' })
-            .split('\n')
-            .map((file) => file.trim())
-
-        for (var i = 0, c = files.length; i < c; i++) {
-            let file = files[i]
-            let name = path.basename(file)
-            await client.uploadArtifact(name, [file], path.dirname(file))
-        }
-
     } catch (error) {
         core.setFailed(error)
     }
