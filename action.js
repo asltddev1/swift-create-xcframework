@@ -5,13 +5,13 @@ const artifact = require('././.action/artifact')
 const fs = require('fs')
 
 const scxVersion = 'v2.3.0'
-const outputPath = '.build/xcframework-zipfile.url'
 
 core.setCommandEcho(true)
 
 async function run() {
     try {
         let packagePath = core.getInput('path', { required: false })
+        let targetPackage = core.getInput('targetPackage', { required: false })
         let targets = core.getInput('target', { required: false })
         let configuration = core.getInput('configuration', { required: false })
         let platforms = core.getInput('platforms', { required: false })
@@ -61,8 +61,11 @@ async function run() {
 
         await runUsingMint('swift-create-xcframework', options)
 
+        await exec.exec('cp', ['-r', '*.xcframework', `${targetPackage}/Sources`])
+        await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
+
         let client = artifact.create()
-        let files = fs.readFileSync(outputPath, { encoding: 'utf8' })
+        let files = fs.readFileSync('library.zip', { encoding: 'utf8' })
             .split('\n')
             .map((file) => file.trim())
 
