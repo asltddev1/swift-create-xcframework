@@ -59,7 +59,7 @@ async function run() {
                 })
         }
 
-        await exec('swift', [
+        await exec.exec('swift', [
             'create-xcframework',
             ...options
         ])
