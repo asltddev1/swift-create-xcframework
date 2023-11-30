@@ -63,12 +63,13 @@ async function run() {
         await runUsingMint('swift-create-xcframework', options)
 
         if (!!frameworks) {
-            frameworks.split(',')
+            let splitFrameworks = frameworks.split(',')
                 .map((t) => t.trim())
                 .filter((t) => t.length > 0)
-                .forEach(async (framework) => {
-                    await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
-                })
+            
+            for (let framework in splitFrameworks) {   
+                await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
+            }
         }
         await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
 
