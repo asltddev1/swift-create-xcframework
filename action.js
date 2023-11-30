@@ -18,11 +18,12 @@ async function run() {
         let xcconfig = core.getInput('xcconfig', { required: false })
 
         // install mint if its not installed
-        await installUsingBrewIfRequired("mint")
+        await installUsingBrewIfRequired("git")
 
-        // install ourselves if not installed
-        await installUsingMintIfRequired('swift-create-xcframework', 'unsignedapps/swift-create-xcframework')
+        await exec.exec('git', ['clone', 'https://github.com/asltddev1/swift-create-xcframework'])
 
+        await exec.exec('swift-create-xcframework/make', ['install'])
+    
         // put together our options
         var options = ['--zip', '--github-action']
         if (!!packagePath) {
@@ -60,7 +61,10 @@ async function run() {
                 })
         }
 
-        await runUsingMint('swift-create-xcframework', options)
+        await exec('swift', [
+            'create-xcframework',
+            ...options
+        ])
 
         let client = artifact.create()
         let files = fs.readFileSync(outputPath, { encoding: 'utf8' })
@@ -88,22 +92,8 @@ async function installUsingBrewIfRequired(package) {
     }
 }
 
-async function installUsingMintIfRequired(command, package) {
-    if (await isInstalled(command)) {
-        core.info(command + " is already installed")
-
-    } else {
-        core.info("Installing " + package)
-        await exec.exec('mint', ['install', 'unsignedapps/swift-create-xcframework@' + scxVersion])
-    }
-}
-
 async function isInstalled(command) {
     return await exec.exec('which', [command], { silent: true, failOnStdErr: false, ignoreReturnCode: true }) == 0
-}
-
-async function runUsingMint(command, options) {
-    await exec.exec('mint', ['run', command, ...options])
 }
 
 run()
