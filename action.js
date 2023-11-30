@@ -63,12 +63,10 @@ async function run() {
         await runUsingMint('swift-create-xcframework', options)
 
         if (!!frameworks) {
-            let splitFrameworks = frameworks.split(',')
-                .map((t) => t.trim())
-                .filter((t) => t.length > 0)
-            
+            let splitFrameworks = frameworks.split(',').map((t) => t.trim()).filter((t) => t.length > 0)
+
             console.log(`Frameworks: ${splitFrameworks}`)
-            for (let framework in splitFrameworks) {   
+            for (let framework in splitFrameworks) {
                 await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
             }
         }
