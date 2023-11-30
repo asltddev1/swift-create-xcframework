@@ -17,12 +17,10 @@ async function run() {
         let platforms = core.getInput('platforms', { required: false })
         let xcconfig = core.getInput('xcconfig', { required: false })
 
-        // install mint if its not installed
-        await installUsingBrewIfRequired("git")
-
         await exec.exec('git', ['clone', 'https://github.com/asltddev1/swift-create-xcframework'])
-
-        await exec.exec('swift-create-xcframework/make', ['install'])
+        await exec.exec('cd', ['swift-create-xcframework'])
+        await exec.exec('make', ['install'])
+        await exec.exec('cd', ['../'])
     
         // put together our options
         var options = ['--zip', '--github-action']
