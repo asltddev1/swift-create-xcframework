@@ -15,6 +15,15 @@ inputs:
   xcconfig:
     description: "The path to a .xcconfig file that can be used to override Xcode build settings. Relative to the package path."
     required: false
+  path:
+    description: "The path to the package to create xcframework from"
+    required: false
+  targetPackage:
+    description: "The path to the target package that will be zipped and distributed"
+    required: false
+  frameworks:
+    description: "The generated frameworks to copy to the targetPackage"
+    required: false
 
 runs:
   using: node12

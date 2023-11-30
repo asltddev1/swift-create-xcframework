@@ -67,6 +67,7 @@ async function run() {
                 .map((t) => t.trim())
                 .filter((t) => t.length > 0)
             
+            console.log(`Frameworks: ${splitFrameworks}`)
             for (let framework in splitFrameworks) {   
                 await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
             }
