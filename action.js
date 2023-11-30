@@ -12,6 +12,7 @@ async function run() {
     try {
         let packagePath = core.getInput('path', { required: false })
         let targetPackage = core.getInput('targetPackage', { required: false })
+        let frameworks = core.getInput('frameworks', { required: false })
         let targets = core.getInput('target', { required: false })
         let configuration = core.getInput('configuration', { required: false })
         let platforms = core.getInput('platforms', { required: false })
@@ -61,7 +62,14 @@ async function run() {
 
         await runUsingMint('swift-create-xcframework', options)
 
-        await exec.exec('cp', ['-r', '*.xcframework', `${targetPackage}/Sources`])
+        if (!!frameworks) {
+            frameworks.split(',')
+                .map((t) => t.trim())
+                .filter((t) => t.length > 0)
+                .forEach(async (framework) => {
+                    await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
+                })
+        }
         await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
 
         let client = artifact.create()
