@@ -23,7 +23,7 @@ async function run() {
         await installUsingMintIfRequired('swift-create-xcframework', 'asltddev1/swift-create-xcframework')
 
         // put together our options
-        var options = ['--zip', '--github-action']
+        var options = ['--github-action']
         if (!!packagePath) {
             options.push('--package-path')
             options.push(packagePath)
@@ -59,10 +59,7 @@ async function run() {
                 })
         }
 
-        await exec.exec('swift', [
-            'create-xcframework',
-            ...options
-        ])
+        await runUsingMint('swift-create-xcframework', options)
 
         let client = artifact.create()
         let files = fs.readFileSync(outputPath, { encoding: 'utf8' })
