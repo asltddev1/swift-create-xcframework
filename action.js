@@ -69,7 +69,7 @@ async function run() {
                 .filter((t) => t.length > 0)
                 .map(async (framework) => {
                     await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
-                })
+                }))
         }
         await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
 
