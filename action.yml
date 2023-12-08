@@ -24,6 +24,9 @@ inputs:
   frameworks:
     description: "The generated frameworks to copy to the targetPackage"
     required: false
+  resultName:
+    description: "The name of the resulted artifact"
+    required: false
 
 runs:
   using: node12

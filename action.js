@@ -17,6 +17,7 @@ async function run() {
         let configuration = core.getInput('configuration', { required: false })
         let platforms = core.getInput('platforms', { required: false })
         let xcconfig = core.getInput('xcconfig', { required: false })
+        let resultName = core.getInput('resultName', { required: false })
 
         await installUsingBrewIfRequired("mint")
 
@@ -75,7 +76,7 @@ async function run() {
                     await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
                 }))
         }
-        await exec.exec('zip', ['-vr', 'library.zip', `${targetPackage}`])
+        await exec.exec('zip', ['-vr', resultName, `${targetPackage}`])
     } catch (error) {
         core.setFailed(error)
     }
