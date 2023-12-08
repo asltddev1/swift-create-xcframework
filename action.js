@@ -25,10 +25,6 @@ async function run() {
 
         // put together our options
         var options = ['--github-action']
-        if (!!packagePath) {
-            options.push('--package-path')
-            options.push(packagePath)
-        }
 
         if (!!configuration) {
             options.push('--configuration')
@@ -60,7 +56,15 @@ async function run() {
                 })
         }
 
-        await runUsingMint('swift-create-xcframework', options)
+        if (!!packagePath) {
+            await Promise.all(packagePath
+                .split(',')
+                .map((t) => t.trim())
+                .filter((t) => t.length > 0)
+                .map(async (path) => {
+                    await runUsingMint('swift-create-xcframework', [...options, "--package-path", path])
+                }))
+        }
 
         if (!!frameworks) {
             await Promise.all(frameworks
