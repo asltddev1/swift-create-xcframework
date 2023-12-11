@@ -73,7 +73,8 @@ async function run() {
                 .map((t) => t.trim())
                 .filter((t) => t.length > 0)
                 .map(async (framework) => {
-                    await exec.exec('cp', ['-r', `${framework}`, `${targetPackage}/Sources`])
+                    const sourceDir = framework.endsWith("/") ? framework : framework + "/"
+                    await exec.exec('cp', ['-r', `${sourceDir}`, `${targetPackage}/Sources/`])
                 }))
         }
         await exec.exec('zip', ['-vr', resultName, `${targetPackage}`])
