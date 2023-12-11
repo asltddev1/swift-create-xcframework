@@ -76,7 +76,7 @@ async function run() {
                 .filter((t) => t.length > 0)
                 .map(async (framework) => {
                     await exec.exec('mkdir', ['-p', `${targetPackage}/Sources/${framework}`])
-                    await exec.exec('cp', ['-r', `${framework}/*`, `${targetPackage}/Sources/${framework}`])
+                    await exec.exec('cp', ['-R', `${framework}/`, `${targetPackage}/Sources/${framework}`])
                 }))
         }
         await exec.exec('zip', ['-vr', resultName, `${targetPackage}`])
