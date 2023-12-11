@@ -68,6 +68,8 @@ async function run() {
         }
 
         if (!!frameworks) {
+            await exec.exec('pwd')
+            await exec.exec('ls')
             await Promise.all(frameworks
                 .split(',')
                 .map((t) => t.trim())
