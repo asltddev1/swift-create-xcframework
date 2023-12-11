@@ -73,9 +73,9 @@ async function run() {
                 .map((t) => t.trim())
                 .filter((t) => t.length > 0)
                 .map(async (framework) => {
-                    const sourceDir = framework.endsWith("/") ? framework.substring(0, framework.length - 1) : framework
+                    const sourceDir = framework.endsWith("/") ? framework : framework + "/"
                     console.log("Copying framework: " + sourceDir)
-                    await exec.exec('cp', ['-r', `${sourceDir}`, `${targetPackage}/Sources`])
+                    await exec.exec('cp', ['-r', `${sourceDir}`, `${targetPackage}/Sources/${sourceDir}`])
                 }))
         }
         await exec.exec('zip', ['-vr', resultName, `${targetPackage}`])
