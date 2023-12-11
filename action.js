@@ -73,7 +73,7 @@ async function run() {
                 .map((t) => t.trim())
                 .filter((t) => t.length > 0)
                 .map(async (framework) => {
-                    await exec.exec('mkdir', ['-P', `${targetPackage}/Sources/${framework}`])
+                    await exec.exec('mkdir', ['-p', `${targetPackage}/Sources/${framework}`])
                     await exec.exec('cp', ['-r', `${framework}/*`, `${targetPackage}/Sources/${framework}`])
                 }))
         }
