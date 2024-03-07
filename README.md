@@ -141,13 +141,13 @@ jobs:
 You can install using mint:
 
 ```shell
-mint install unsignedapps/swift-create-xcframework
+mint install https://github.com/asltddev1/swift-create-xcframework/
 ```
 
 Or manually:
 
 ```shell
-git clone https://github.com/unsignedapps/swift-create-xcframework.git
+git clone https://github.com/asltddev1/swift-create-xcframework/
 cd swift-create-xcframework
 make install
 ```
